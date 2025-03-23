@@ -1,0 +1,6 @@
+.venv
+.vscode
+__pycache__/
+__init__.py*
+migrations
+db.sqlite3

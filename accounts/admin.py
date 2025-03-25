@@ -12,9 +12,22 @@ class CustomeUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     model = User
 
-    fieldsets = ((None, {"fields": ["email", "username", "password"]}),)
+    fieldsets = (
+        (None, {"fields": ["email", "username", "active_status", "password"]}),
+    )
     add_fieldsets = (
-        (None, {"fields": ["email", "username", "password1", "password2"]}),
+        (
+            None,
+            {
+                "fields": [
+                    "email",
+                    "username",
+                    "active_status",
+                    "password1",
+                    "password2",
+                ]
+            },
+        ),
     )
 
 

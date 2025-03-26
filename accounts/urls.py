@@ -1,5 +1,7 @@
 from django.urls import path
+from django.contrib.auth.views import LoginView, LogoutView
 from .views import (
+    register,
     UserListApiView,
     UserCreateApiView,
     UserDetailApiView,
@@ -9,6 +11,12 @@ from .views import (
 
 urlpatterns = [
     path("users/", UserListApiView.as_view(), name="users"),
+    path(
+        "login/",
+        LoginView.as_view(template_name="registration/login.html"),
+        name="login",
+    ),
+    path("register/", register, name="register"),
     path("user/create/", UserCreateApiView.as_view(), name="create-user"),
     path("user/<int:pk>/", UserDetailApiView.as_view(), name="user-detail"),
     path("user/<int:pk>/update/", UserUpdateApiView.as_view(), name="update-user"),

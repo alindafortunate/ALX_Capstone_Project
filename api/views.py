@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from rest_framework.permissions import IsAdminUser
 from rest_framework.generics import (
     ListAPIView,
     RetrieveAPIView,
@@ -26,15 +27,18 @@ class BookDetailApiView(RetrieveAPIView):
 
 
 class BookCreateApiView(CreateAPIView):
+    permission_classes = [IsAdminUser]
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
 
 class BookUpdateApiView(UpdateAPIView):
+    permission_classes = [IsAdminUser]
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
 
 class BookDeleteApiView(DestroyAPIView):
+    permission_classes = [IsAdminUser]
     queryset = Book.objects.all()
     serializer_class = BookSerializer

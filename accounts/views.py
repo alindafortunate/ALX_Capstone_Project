@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth import logout
 from django.contrib.auth import get_user_model
 from rest_framework.generics import (
     ListAPIView,
@@ -25,6 +26,12 @@ def register(request):
     context = {"form": form}
 
     return render(request, "accounts/register.html", context)
+
+
+def logout_view(request):
+    logout(request)
+    return redirect("/accounts/login/")
+    
 
 
 class UserListApiView(ListAPIView):

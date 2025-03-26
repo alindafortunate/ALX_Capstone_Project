@@ -2,6 +2,7 @@ from django.urls import path
 from django.contrib.auth.views import LoginView, LogoutView
 from .views import (
     register,
+    logout_view,
     UserListApiView,
     UserCreateApiView,
     UserDetailApiView,
@@ -17,6 +18,7 @@ urlpatterns = [
         name="login",
     ),
     path("register/", register, name="register"),
+    path("logout/", logout_view, name="logout"),
     path("user/create/", UserCreateApiView.as_view(), name="create-user"),
     path("user/<int:pk>/", UserDetailApiView.as_view(), name="user-detail"),
     path("user/<int:pk>/update/", UserUpdateApiView.as_view(), name="update-user"),

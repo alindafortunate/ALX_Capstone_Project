@@ -11,6 +11,10 @@ from .serializers import BookSerializer
 
 
 # Create your views here.
+def index(request):
+    return render(request, "api/home.html")
+
+
 class BookListApiView(ListAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer

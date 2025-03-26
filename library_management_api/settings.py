@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "accounts.apps.AccountsConfig",
     "api",
     "rest_framework",
+    "rest_framework.authtoken",
 ]
 
 MIDDLEWARE = [
@@ -134,7 +135,11 @@ AUTH_USER_MODEL = "accounts.User"
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
-    ]
+    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        # "rest_framework.authtoken", to be added later
+        "rest_framework.authentication.SessionAuthentication",
+    ],
 }
 
 LOGIN_REDIRECT_URL = "/api/"

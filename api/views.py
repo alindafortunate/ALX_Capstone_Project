@@ -9,8 +9,8 @@ from rest_framework.generics import (
     UpdateAPIView,
     DestroyAPIView,
 )
-from .models import Book
-from .serializers import BookSerializer
+from .models import Book, CheckOuts
+from .serializers import BookSerializer, CheckOutsSerializer
 
 
 # Create your views here.
@@ -59,9 +59,9 @@ def check_out_a_book(request, id):
             serializer = BookSerializer(book)
             book.number_of_copies_available -= 1
 
-            return Response(f"{book.title} by {book.author}checked_out enjoy reading")
+            return Response(f"{book.title} by {book.author} checked_out enjoy reading")
         else:
-            return Response("Book not available, re-check in a few days.")
+            return Response("Book not available currently, re-check in a few days.")
     except Book.DoesNotExist:
         return Response("Sorry book not available")
 
@@ -81,7 +81,14 @@ def return_a_book(request, id):
 
 @api_view(["GET"])
 def check_available_books(request):
-    book = Book.objects.filter(number_of_copies_available__gte=1)
-    serializer = BookSerializer(book, many=True)
+    try:
+        book = Book.objects.filter(number_of_copies_available__gte=1)
+        serializer = BookSerializer(book, many=True)
+        return Response(serializer.data)
+    except Book.DoesNotExist:
+        return Response("No book copies available")
 
-    return Response(serializer.data)
+
+class CheckOutListApiView(ListAPIView):
+    queryset = CheckOuts.objects.all()
+    serializer_class = CheckOutsSerializer

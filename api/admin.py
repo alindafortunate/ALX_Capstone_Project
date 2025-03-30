@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import Book, Transcations
+from .models import Book, CheckOuts
 
 # Register your models here.
 admin.site.register(Book)
-
+admin.site.register(CheckOuts)

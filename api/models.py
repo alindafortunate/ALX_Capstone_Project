@@ -5,7 +5,6 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
-# Create your models here.
 class Book(models.Model):
     title = models.CharField(max_length=255)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="books")
@@ -21,9 +20,6 @@ class Book(models.Model):
 
             return True
 
-        else:
-            return "Book not available"
-
     def return_book(self):
         if self.check_out_book() == True:
             self.number_of_copies_available += 1
@@ -31,15 +27,17 @@ class Book(models.Model):
         else:
             return "Book not check_out"
 
-    def available_books(self):
-        if self.check_out_book() == True:
-            return self.number_of_copies_available
-        else:
-            return self.number_of_copies_available
 
-
-class Transcations:
-    book = []
-
-    def add_book(self, book):
-        self.book.append(book)
+class CheckOuts(models.Model):
+    reader = models.ForeignKey(User, on_delete=models.CASCADE, related_name="readers")
+    book_taken = models.ForeignKey(
+        Book, on_delete=models.CASCADE, related_name="taken_books"
+    )
+    returned_book = models.ForeignKey(
+        Book, on_delete=models.CASCADE, related_name="returned_books"
+    )
+    borrowed_at = models.DateTimeField()
+    return_on = models.DateTimeField()
+    issued_by = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="librarian"
+    )

@@ -15,6 +15,31 @@ class Book(models.Model):
     def __str__(self):
         return f"{self.title}"
 
+    def check_out_book(self):
+        if self.number_of_copies_available >= 1:
+            self.number_of_copies_available -= 1
 
-class Transcations(models.Model):
-    pass
+            return True
+
+        else:
+            return "Book not available"
+
+    def return_book(self):
+        if self.check_out_book() == True:
+            self.number_of_copies_available += 1
+
+        else:
+            return "Book not check_out"
+
+    def available_books(self):
+        if self.check_out_book() == True:
+            return self.number_of_copies_available
+        else:
+            return self.number_of_copies_available
+
+
+class Transcations:
+    book = []
+
+    def add_book(self, book):
+        self.book.append(book)

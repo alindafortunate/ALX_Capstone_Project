@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.permissions import IsAdminUser
 from rest_framework import filters
-from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.views import APIView
 from rest_framework.generics import (
     ListAPIView,
     RetrieveAPIView,
@@ -81,11 +81,23 @@ def return_a_book(request, id):
         return Response("Sorry book currently not available.")
 
 
+class Check_Available_Books(ListAPIView):
+    filter_backends = [filters.SearchFilter]
+    search_fields = ["title"]
+    serializer_class = BookSerializer
+
+    def get_queryset(self):
+        book = Book.objects.filter(number_of_copies_available__gte=1)
+        return book
+
+
 @api_view(["GET"])
 def check_available_books(request):
     try:
         book = Book.objects.filter(number_of_copies_available__gte=1)
         serializer = BookSerializer(book, many=True)
+        filter_backends = [filters.SearchFilter]
+        search_fields = ["title"]
         return Response(serializer.data)
     except Book.DoesNotExist:
         return Response("No book copies available")

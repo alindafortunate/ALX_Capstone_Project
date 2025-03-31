@@ -10,6 +10,7 @@ from .views import (
     return_a_book,
     check_available_books,
     CheckOutListApiView,
+    Check_Available_Books,
 )
 
 urlpatterns = [
@@ -21,6 +22,10 @@ urlpatterns = [
     path("book/<int:pk>/delete/", BookDeleteApiView.as_view(), name="book-delete"),
     path("check_out_book/<int:id>/", check_out_a_book, name="book_check_out"),
     path("return_book/<int:id>/", return_a_book, name="return_book"),
-    path("check_available_books/", check_available_books, name="available_books"),
+    path(
+        "check_available_books/",
+        Check_Available_Books.as_view(),
+        name="available_books",
+    ),
     path("transactions/", CheckOutListApiView.as_view(), name="transactions"),
 ]

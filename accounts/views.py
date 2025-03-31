@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from django.contrib.auth import get_user_model
+from rest_framework.permissions import IsAdminUser
 from rest_framework.generics import (
     ListAPIView,
     CreateAPIView,
@@ -31,7 +32,6 @@ def register(request):
 def logout_view(request):
     logout(request)
     return redirect("/accounts/login/")
-    
 
 
 class UserListApiView(ListAPIView):
@@ -40,6 +40,7 @@ class UserListApiView(ListAPIView):
 
 
 class UserCreateApiView(CreateAPIView):
+    permission_classes = [IsAdminUser]
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
@@ -50,10 +51,12 @@ class UserDetailApiView(RetrieveAPIView):
 
 
 class UserUpdateApiView(UpdateAPIView):
+    permission_classes = [IsAdminUser]
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
 
 class UserDeleteApiView(DestroyAPIView):
+    permission_classes = [IsAdminUser]
     queryset = User.objects.all()
     serializer_class = UserSerializer

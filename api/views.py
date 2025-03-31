@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAdminUser
+from django.contrib.auth.mixins import UserPassesTestMixin
 from rest_framework import filters
 
 from rest_framework.generics import (
@@ -20,7 +21,6 @@ def index(request):
 
 
 class BookListApiView(ListAPIView):
-
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     filter_backends = [filters.SearchFilter]
@@ -33,21 +33,25 @@ class BookDetailApiView(RetrieveAPIView):
 
 
 class BookCreateApiView(CreateAPIView):
-    permission_classes = [IsAdminUser]
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
 
-class BookUpdateApiView(UpdateAPIView):
+class BookUpdateApiView(UserPassesTestMixin, UpdateAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+
+    def test_func(self):
+        return self.get_object().author == self.request.user
+
+
+class BookDeleteApiView(UserPassesTestMixin, DestroyAPIView):
     permission_classes = [IsAdminUser]
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
-
-class BookDeleteApiView(DestroyAPIView):
-    permission_classes = [IsAdminUser]
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
+    def test_func(self):
+        return self.get_object().author == self.request.user
 
 
 @api_view(["GET"])

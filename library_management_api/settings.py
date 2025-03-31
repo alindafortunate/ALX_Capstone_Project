@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
+
 import dj_database_url
 from decouple import config
 from pathlib import Path
@@ -125,6 +126,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = "/static/"
+STATIC_ROOT = "staticfiles/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # Default primary key field type
@@ -143,4 +145,10 @@ REST_FRAMEWORK = {
     ],
 }
 
-LOGIN_REDIRECT_URL = "/api/"
+LOGIN_REDIRECT_URL = "/"
+
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = "DENY"

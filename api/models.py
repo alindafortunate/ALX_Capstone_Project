@@ -38,3 +38,6 @@ class CheckOuts(models.Model):
     issued_by = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="librarian"
     )
+
+    def __str__(self):
+        return f"{self.reader}"

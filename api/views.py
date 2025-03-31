@@ -2,6 +2,8 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework import filters
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.generics import (
     ListAPIView,
     RetrieveAPIView,
@@ -13,7 +15,6 @@ from .models import Book, CheckOuts
 from .serializers import BookSerializer, CheckOutsSerializer
 
 
-# Create your views here.
 def index(request):
     return render(request, "api/home.html")
 
@@ -21,8 +22,9 @@ def index(request):
 class BookListApiView(ListAPIView):
 
     queryset = Book.objects.all()
-
     serializer_class = BookSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ["title"]
 
 
 class BookDetailApiView(RetrieveAPIView):

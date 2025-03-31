@@ -17,15 +17,12 @@ class Book(models.Model):
     def check_out_book(self):
         if self.number_of_copies_available >= 1:
             self.number_of_copies_available -= 1
-
             return True
 
     def return_book(self):
         if self.check_out_book() == True:
             self.number_of_copies_available += 1
-
-        else:
-            return "Book not check_out"
+            return True
 
 
 class CheckOuts(models.Model):

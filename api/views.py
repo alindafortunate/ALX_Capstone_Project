@@ -46,7 +46,6 @@ class BookUpdateApiView(UserPassesTestMixin, UpdateAPIView):
 
 
 class BookDeleteApiView(UserPassesTestMixin, DestroyAPIView):
-    permission_classes = [IsAdminUser]
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
